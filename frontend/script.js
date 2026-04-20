@@ -1,0 +1,270 @@
+const BASE_URL = "http://127.0.0.1:8000";
+
+function showToast(message, isError = false) {
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.classList.remove("hidden");
+    toast.style.background = isError ? "#dc2626" : "#111827";
+
+    setTimeout(() => {
+        toast.classList.add("hidden");
+    }, 3000);
+}
+
+function clearTableBody(tableId) {
+    const tbody = document.querySelector(`#${tableId} tbody`);
+    tbody.innerHTML = "";
+    return tbody;
+}
+
+function renderEmptyRow(tbody, colSpan, message = "No results found.") {
+    tbody.innerHTML = `<tr><td colspan="${colSpan}" class="empty-state">${message}</td></tr>`;
+}
+
+function escapeHtml(value) {
+    if (value === null || value === undefined) return "";
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+async function fetchJson(url, options = {}) {
+    const response = await fetch(url, options);
+    if (!response.ok) {
+        let detail = `Request failed with status ${response.status}`;
+        try {
+            const err = await response.json();
+            if (err.detail) {
+                detail = typeof err.detail === "string" ? err.detail : JSON.stringify(err.detail);
+            }
+        } catch (_) { }
+        throw new Error(detail);
+    }
+    return response.json();
+}
+
+// 1) Stats
+async function loadStats() {
+    try {
+        const data = await fetchJson(`${BASE_URL}/transactions/stats`);
+        const tbody = clearTableBody("statsTable");
+
+        if (!data.length) {
+            renderEmptyRow(tbody, 2);
+            return;
+        }
+
+        tbody.innerHTML = data
+            .map(
+                (row) => `
+        <tr>
+          <td>${escapeHtml(row.stock)}</td>
+          <td>${escapeHtml(row.total_transactions)}</td>
+        </tr>
+      `
+            )
+            .join("");
+    } catch (error) {
+        showToast(error.message, true);
+    }
+}
+
+// 2) Recent trades by user
+async function loadUserTrades(userId) {
+    try {
+        const data = await fetchJson(`${BASE_URL}/transactions/${encodeURIComponent(userId)}`);
+        const tbody = clearTableBody("userTradesTable");
+
+        if (!data.length) {
+            renderEmptyRow(tbody, 7);
+            return;
+        }
+
+        tbody.innerHTML = data
+            .map(
+                (row) => `
+        <tr>
+          <td>${escapeHtml(row.id)}</td>
+          <td>${escapeHtml(row.user_id)}</td>
+          <td>${escapeHtml(row.stock)}</td>
+          <td>${escapeHtml(row.price)}</td>
+          <td>${escapeHtml(row.quantity)}</td>
+          <td>${escapeHtml(row.side)}</td>
+          <td>${escapeHtml(row.timestamp)}</td>
+        </tr>
+      `
+            )
+            .join("");
+    } catch (error) {
+        showToast(error.message, true);
+    }
+}
+
+// 3) Trades by date range
+async function loadDateRangeTrades(start, end) {
+    try {
+        const url = `${BASE_URL}/transactions/by-date?start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`;
+        const data = await fetchJson(url);
+        const tbody = clearTableBody("dateRangeTable");
+
+        if (!data.length) {
+            renderEmptyRow(tbody, 7);
+            return;
+        }
+
+        tbody.innerHTML = data
+            .map(
+                (row) => `
+        <tr>
+          <td>${escapeHtml(row.id)}</td>
+          <td>${escapeHtml(row.user_id)}</td>
+          <td>${escapeHtml(row.stock)}</td>
+          <td>${escapeHtml(row.price)}</td>
+          <td>${escapeHtml(row.quantity)}</td>
+          <td>${escapeHtml(row.side)}</td>
+          <td>${escapeHtml(row.timestamp)}</td>
+        </tr>
+      `
+            )
+            .join("");
+    } catch (error) {
+        showToast(error.message, true);
+    }
+}
+
+// 4) Trades by stock and date
+async function loadStockDateTrades(stock, tradeDate) {
+    try {
+        const url = `${BASE_URL}/transactions/by-stock-date?stock=${encodeURIComponent(stock)}&trade_date=${encodeURIComponent(tradeDate)}`;
+        const data = await fetchJson(url);
+        const tbody = clearTableBody("stockDateTable");
+
+        if (!data.length) {
+            renderEmptyRow(tbody, 7);
+            return;
+        }
+
+        tbody.innerHTML = data
+            .map(
+                (row) => `
+        <tr>
+          <td>${escapeHtml(row.id)}</td>
+          <td>${escapeHtml(row.user_id)}</td>
+          <td>${escapeHtml(row.stock)}</td>
+          <td>${escapeHtml(row.price)}</td>
+          <td>${escapeHtml(row.quantity)}</td>
+          <td>${escapeHtml(row.side)}</td>
+          <td>${escapeHtml(row.timestamp)}</td>
+        </tr>
+      `
+            )
+            .join("");
+    } catch (error) {
+        showToast(error.message, true);
+    }
+}
+
+// 5) Holdings as of date
+async function loadHoldings(userId, endDate) {
+    try {
+        const url = `${BASE_URL}/transactions/holdings?user_id=${encodeURIComponent(userId)}&end=${encodeURIComponent(endDate)}`;
+        const data = await fetchJson(url);
+        const tbody = clearTableBody("holdingsTable");
+
+        if (!data.length) {
+            renderEmptyRow(tbody, 2);
+            return;
+        }
+
+        tbody.innerHTML = data
+            .map(
+                (row) => `
+        <tr>
+          <td>${escapeHtml(row.stock)}</td>
+          <td>${escapeHtml(row.shares_held)}</td>
+        </tr>
+      `
+            )
+            .join("");
+    } catch (error) {
+        showToast(error.message, true);
+    }
+}
+
+// 6) Insert transaction
+async function insertTransaction(payload) {
+    try {
+        const data = await fetchJson(`${BASE_URL}/transactions`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+        });
+
+        const resultBox = document.getElementById("insertResult");
+        resultBox.classList.remove("hidden");
+        resultBox.textContent = `Inserted successfully:\n${JSON.stringify(data, null, 2)}`;
+
+        showToast("Transaction inserted successfully.");
+    } catch (error) {
+        showToast(error.message, true);
+    }
+}
+
+// Event bindings
+document.getElementById("loadStatsBtn").addEventListener("click", loadStats);
+
+document.getElementById("userTradesForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const userId = document.getElementById("userIdInput").value.trim();
+    if (!userId) return;
+    loadUserTrades(userId);
+});
+
+document.getElementById("dateRangeForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const start = document.getElementById("startDateInput").value;
+    const end = document.getElementById("endDateInput").value;
+    if (!start || !end) return;
+    loadDateRangeTrades(start, end);
+});
+
+document.getElementById("stockDateForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const stock = document.getElementById("stockInput").value.trim().toUpperCase();
+    const tradeDate = document.getElementById("tradeDateInput").value;
+    if (!stock || !tradeDate) return;
+    loadStockDateTrades(stock, tradeDate);
+});
+
+document.getElementById("holdingsForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const userId = document.getElementById("holdingUserIdInput").value.trim();
+    const endDate = document.getElementById("holdingDateInput").value;
+    if (!userId || !endDate) return;
+    loadHoldings(userId, endDate);
+});
+
+document.getElementById("insertTradeForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const payload = {
+        user_id: Number(document.getElementById("newUserId").value),
+        stock: document.getElementById("newStock").value.trim().toUpperCase(),
+        price: Number(document.getElementById("newPrice").value),
+        quantity: Number(document.getElementById("newQuantity").value),
+        side: document.getElementById("newSide").value,
+        timestamp: document.getElementById("newTimestamp").value,
+    };
+
+    insertTransaction(payload);
+});
+
+// Load stats on first page load
+window.addEventListener("DOMContentLoaded", () => {
+    loadStats();
+});
