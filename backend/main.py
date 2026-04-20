@@ -105,7 +105,7 @@ def get_user_holdings_as_of_date(user_id: int, end: date):
                     WHEN side = 'Sell' THEN -quantity
                     ELSE 0
                 END
-            ) >= 0
+            ) > 0
             ORDER BY stock;
             """,
             (user_id, end),
