@@ -68,7 +68,7 @@
                 </div>
             </section>
 
-            <!-- Trades by date range -->
+            <!-- Transactions by date range with pagination -->
             <section class="card">
                 <div class="card-header">
                     <h2>Transactions by Date Range</h2>
@@ -102,9 +102,15 @@
                         <tbody></tbody>
                     </table>
                 </div>
+
+                <div class="pagination-bar" id="dateRangePagination">
+                    <button type="button" class="btn btn-secondary" id="datePrevBtn">← Prev</button>
+                    <span id="datePageInfo">Page 1 of 1</span>
+                    <button type="button" class="btn btn-secondary" id="dateNextBtn">Next →</button>
+                </div>
             </section>
 
-            <!-- Trades by stock and date -->
+            <!-- Transactions by stock and date -->
             <section class="card">
                 <div class="card-header">
                     <h2>Transactions by Stock and Date</h2>
