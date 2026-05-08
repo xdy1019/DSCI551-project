@@ -250,8 +250,9 @@ tr:hover td {
 
 .explain-box {
     margin-top: 18px;
-    background: #0f172a;
-    color: #e5e7eb;
+    background: #ffffff;
+    color: #000000;
+    border: 2px solid #000000;
     border-radius: 12px;
     padding: 16px;
     overflow-x: auto;
@@ -260,7 +261,8 @@ tr:hover td {
 .explain-box h3 {
     margin: 0 0 10px;
     font-size: 1rem;
-    color: #ffffff;
+    color: #000000;
+    font-weight: 400;
 }
 
 .explain-box pre {
@@ -269,6 +271,7 @@ tr:hover td {
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
     font-size: 0.85rem;
     line-height: 1.45;
+    color: #000000;
 }
 
 .hero-description {
