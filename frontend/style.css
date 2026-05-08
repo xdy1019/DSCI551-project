@@ -187,12 +187,26 @@ tr:hover td {
     background: #fafcff;
 }
 
+.pagination-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 12px;
+    padding-top: 2px;
+    flex-wrap: wrap;
+}
+
+.pagination-summary {
+    color: var(--muted);
+    font-weight: 600;
+}
+
 .pagination-bar {
     display: flex;
     align-items: center;
     justify-content: flex-end;
     gap: 12px;
-    margin-top: 14px;
 }
 
 .pagination-bar span {
@@ -232,4 +246,38 @@ tr:hover td {
     color: var(--muted);
     padding: 10px 0;
     font-style: italic;
+}
+
+.explain-box {
+    margin-top: 18px;
+    background: #0f172a;
+    color: #e5e7eb;
+    border-radius: 12px;
+    padding: 16px;
+    overflow-x: auto;
+}
+
+.explain-box h3 {
+    margin: 0 0 10px;
+    font-size: 1rem;
+    color: #ffffff;
+}
+
+.explain-box pre {
+    margin: 0;
+    white-space: pre-wrap;
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-size: 0.85rem;
+    line-height: 1.45;
+}
+
+.hero-description {
+    margin-top: 10px;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.hero-description p {
+    margin: 4px 0;
+    font-size: 0.98rem;
 }

@@ -53,7 +53,14 @@ async function fetchJson(url, options = {}) {
     return response.json();
 }
 
-// 1) Stats
+function showExplain(boxId, textId, explainText) {
+    const box = document.getElementById(boxId);
+    const text = document.getElementById(textId);
+
+    text.textContent = explainText;
+    box.classList.remove("hidden");
+}
+
 async function loadStats() {
     try {
         const data = await fetchJson(`${BASE_URL}/transactions/stats`);
@@ -74,12 +81,14 @@ async function loadStats() {
       `
             )
             .join("");
+
+        const explainData = await fetchJson(`${BASE_URL}/transactions/stats/explain`);
+        showExplain("statsExplainBox", "statsExplainText", explainData.explain);
     } catch (error) {
         showToast(error.message, true);
     }
 }
 
-// 2) Recent trades by user
 async function loadUserTrades(userId) {
     try {
         const data = await fetchJson(
@@ -107,20 +116,30 @@ async function loadUserTrades(userId) {
       `
             )
             .join("");
+
+        const explainData = await fetchJson(
+            `${BASE_URL}/transactions/recent/explain?user_id=${encodeURIComponent(userId)}`
+        );
+        showExplain("userTradesExplainBox", "userTradesExplainText", explainData.explain);
     } catch (error) {
         showToast(error.message, true);
     }
 }
 
-// 3) Trades by date range with pagination
 function renderDateRangePage(page) {
     const tbody = clearTableBody("dateRangeTable");
 
     if (!dateRangeData.length) {
         renderEmptyRow(tbody, 7);
+
         document.getElementById("datePageInfo").textContent = "Page 0 of 0";
+
+        const recordInfo = document.getElementById("dateRecordInfo");
+        recordInfo.classList.add("hidden");
+
         document.getElementById("datePrevBtn").disabled = true;
         document.getElementById("dateNextBtn").disabled = true;
+
         return;
     }
 
@@ -130,6 +149,14 @@ function renderDateRangePage(page) {
     const startIndex = (dateRangeCurrentPage - 1) * DATE_RANGE_PAGE_SIZE;
     const endIndex = startIndex + DATE_RANGE_PAGE_SIZE;
     const pageRows = dateRangeData.slice(startIndex, endIndex);
+
+    const showingStart = startIndex + 1;
+    const showingEnd = Math.min(endIndex, dateRangeData.length);
+
+    const recordInfo = document.getElementById("dateRecordInfo");
+    recordInfo.textContent =
+        `Showing ${showingStart}-${showingEnd} of ${dateRangeData.length} records`;
+    recordInfo.classList.remove("hidden");
 
     tbody.innerHTML = pageRows
         .map(
@@ -166,6 +193,13 @@ async function loadDateRangeTrades(start, end) {
         dateRangeData = data;
         dateRangeCurrentPage = 1;
         renderDateRangePage(1);
+
+        const explainUrl = `${BASE_URL}/transactions/by-date/explain?start=${encodeURIComponent(
+            start
+        )}&end=${encodeURIComponent(end)}`;
+
+        const explainData = await fetchJson(explainUrl);
+        showExplain("dateRangeExplainBox", "dateRangeExplainText", explainData.explain);
     } catch (error) {
         showToast(error.message, true);
     }
@@ -186,7 +220,6 @@ function setupDateRangePagination() {
     });
 }
 
-// 4) Trades by stock and date
 async function loadStockDateTrades(stock, tradeDate) {
     try {
         const url = `${BASE_URL}/transactions/by-stock-date?stock=${encodeURIComponent(
@@ -215,12 +248,18 @@ async function loadStockDateTrades(stock, tradeDate) {
       `
             )
             .join("");
+
+        const explainUrl = `${BASE_URL}/transactions/by-stock-date/explain?stock=${encodeURIComponent(
+            stock
+        )}&trade_date=${encodeURIComponent(tradeDate)}`;
+
+        const explainData = await fetchJson(explainUrl);
+        showExplain("stockDateExplainBox", "stockDateExplainText", explainData.explain);
     } catch (error) {
         showToast(error.message, true);
     }
 }
 
-// 5) Holdings as of date
 async function loadHoldings(userId, endDate) {
     try {
         const url = `${BASE_URL}/transactions/holdings?user_id=${encodeURIComponent(
@@ -244,12 +283,18 @@ async function loadHoldings(userId, endDate) {
       `
             )
             .join("");
+
+        const explainUrl = `${BASE_URL}/transactions/holdings/explain?user_id=${encodeURIComponent(
+            userId
+        )}&end=${encodeURIComponent(endDate)}`;
+
+        const explainData = await fetchJson(explainUrl);
+        showExplain("holdingsExplainBox", "holdingsExplainText", explainData.explain);
     } catch (error) {
         showToast(error.message, true);
     }
 }
 
-// 6) Insert transaction
 async function insertTransaction(payload) {
     try {
         const data = await fetchJson(`${BASE_URL}/transactions`, {
@@ -274,7 +319,6 @@ async function insertTransaction(payload) {
     }
 }
 
-// Event bindings
 document.getElementById("loadStatsBtn").addEventListener("click", loadStats);
 
 document
@@ -335,8 +379,6 @@ document
         insertTransaction(payload);
     });
 
-// Load stats on first page load
 window.addEventListener("DOMContentLoaded", () => {
-    loadStats();
     setupDateRangePagination();
 });

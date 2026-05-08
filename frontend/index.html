@@ -5,18 +5,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Stock Trading Dashboard</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css?v=3" />
 </head>
 
 <body>
     <div class="page">
-        <header class="hero">
-            <h1>Stock Trading Dashboard</h1>
-            <p>Frontend for PostgreSQL + FastAPI stock trading application</p>
-        </header>
+    <header class="hero">
+        <h1>Stock Trading Dashboard</h1>
+    
+        <div class="hero-description">
+            <p><strong>Stocks traded:</strong> AAPL, AMAT, AMZN, MSFT</p>
+            <p><strong>Timeframe:</strong> 03/01/2025 - 03/01/2026</p>
+            <p>There are 50 users, with user ID ranges from 1 to 50</p>
+        </div>
+    </header>
 
         <main class="grid">
-            <!-- Stats -->
             <section class="card">
                 <div class="card-header">
                     <h2>Transaction Stats by Stock</h2>
@@ -34,9 +38,13 @@
                         <tbody></tbody>
                     </table>
                 </div>
+
+                <div class="explain-box hidden" id="statsExplainBox">
+                    <h3>EXPLAIN ANALYZE Result</h3>
+                    <pre id="statsExplainText"></pre>
+                </div>
             </section>
 
-            <!-- Recent trades by user -->
             <section class="card">
                 <div class="card-header">
                     <h2>Recent Trades by User</h2>
@@ -66,9 +74,13 @@
                         <tbody></tbody>
                     </table>
                 </div>
+
+                <div class="explain-box hidden" id="userTradesExplainBox">
+                    <h3>EXPLAIN ANALYZE Result</h3>
+                    <pre id="userTradesExplainText"></pre>
+                </div>
             </section>
 
-            <!-- Transactions by date range with pagination -->
             <section class="card">
                 <div class="card-header">
                     <h2>Transactions by Date Range</h2>
@@ -103,14 +115,22 @@
                     </table>
                 </div>
 
-                <div class="pagination-bar" id="dateRangePagination">
-                    <button type="button" class="btn btn-secondary" id="datePrevBtn">← Prev</button>
-                    <span id="datePageInfo">Page 1 of 1</span>
-                    <button type="button" class="btn btn-secondary" id="dateNextBtn">Next →</button>
+                <div class="pagination-footer">
+                    <div class="pagination-summary hidden" id="dateRecordInfo"></div>
+
+                    <div class="pagination-bar" id="dateRangePagination">
+                        <button type="button" class="btn btn-secondary" id="datePrevBtn">← Prev</button>
+                        <span id="datePageInfo">Page 1 of 1</span>
+                        <button type="button" class="btn btn-secondary" id="dateNextBtn">Next →</button>
+                    </div>
+                </div>
+
+                <div class="explain-box hidden" id="dateRangeExplainBox">
+                    <h3>EXPLAIN ANALYZE Result</h3>
+                    <pre id="dateRangeExplainText"></pre>
                 </div>
             </section>
 
-            <!-- Transactions by stock and date -->
             <section class="card">
                 <div class="card-header">
                     <h2>Transactions by Stock and Date</h2>
@@ -144,9 +164,13 @@
                         <tbody></tbody>
                     </table>
                 </div>
+
+                <div class="explain-box hidden" id="stockDateExplainBox">
+                    <h3>EXPLAIN ANALYZE Result</h3>
+                    <pre id="stockDateExplainText"></pre>
+                </div>
             </section>
 
-            <!-- Holdings -->
             <section class="card">
                 <div class="card-header">
                     <h2>Holdings as of a Date</h2>
@@ -175,9 +199,13 @@
                         <tbody></tbody>
                     </table>
                 </div>
+
+                <div class="explain-box hidden" id="holdingsExplainBox">
+                    <h3>EXPLAIN ANALYZE Result</h3>
+                    <pre id="holdingsExplainText"></pre>
+                </div>
             </section>
 
-            <!-- Insert transaction -->
             <section class="card">
                 <div class="card-header">
                     <h2>Insert New Transaction</h2>
@@ -229,7 +257,7 @@
         <div id="toast" class="toast hidden"></div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=3"></script>
 </body>
 
 </html>
