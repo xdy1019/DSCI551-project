@@ -62,7 +62,7 @@ The dataset is the `data.csv` file. Please `data.csv` file is generated from the
    Inside the db.py file in the `backend` folder,             
    For this function get_connection(), you may need to replace "user" with your corresponding user name in that function.
 
-5. Start the backend
+5. Start the backend                
    Run the following commands in the vscode terminal:     
    cd backend       
    python3 -m uvicorn main:app --reload
@@ -86,7 +86,7 @@ There are 6 major operations in this application:
 You need to scroll down the page to see the other operations.              
 Note that the timeframe is 03/01/2025 - 03/01/2026.          
 There are four stocks being traded: AAPL, AMAT, AMZN, MSFT.                   
-There are 50 users participate in trading, with user IDs range from 1 to 50.  
+There are 50 users participate in trading, with user IDs ranging from 1 to 50.  
 
 
 
