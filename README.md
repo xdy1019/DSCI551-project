@@ -58,9 +58,23 @@ The dataset is the `data.csv` file. Please `data.csv` file is generated from the
    To verify if data is loaded into the table, run the following command:               
    SELECT COUNT(*) FROM transactions;
 
-5. Connect the backend to the trading_db database         
-   Inside the db.py file in the `backend` folder,       
-   For this function get_connection(), you may need to replace `user` with your corresponding user name in that function. 
+5. Connect the backend to the trading_db database                
+   Inside the db.py file in the `backend` folder,             
+   For this function get_connection(), you may need to replace "user" with your corresponding user name in that function.
+
+6. Start the backend
+   Run the following commands in the vscode terminal:     
+   cd backend       
+   python3 -m uvicorn main:app --reload
+   
+7. Start the frontend
+   Run the following commands in the vscode terminal:
+   cd frontend          
+   python3 -m http.server 5500           
+
+   
+
+   
 
 
 
