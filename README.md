@@ -11,7 +11,10 @@ Installation instructions:
 1. For the backend:                      
 pip install fastapi               
 2. Install PostgreSQL              
-Please also install Postgres.app      
+Please also install Postgres.app
+
+Data to insert into the database:             
+The dataset is the "data.csv" file.
 
 
 
