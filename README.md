@@ -7,3 +7,8 @@ Backend: FastAPI
 Database: PostgreSQL       
 Frontend: HTML, CSS, JavaScript      
 
+Installation instructions:
+For the backend:                      
+pip install fastapi
+
+
