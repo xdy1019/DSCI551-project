@@ -75,6 +75,24 @@ The dataset is the `data.csv` file. Please `data.csv` file is generated from the
    The following is the website link:           
    http://localhost:5500
 
+There are 6 major operations in this application:                    
+1. Get Transaction Stats by Stock
+2. Get Recent Trades by User
+3. Get Transactions by Date Range
+4. Get Transactions by Stock and Date
+5. Get Holdings as of a Date 
+6. Insert New Transaction
+
+You need to scroll down the page to see the other operations.              
+Note that the timeframe is 03/01/2025 - 03/01/2026.          
+There are four stocks being traded: AAPL, AMAT, AMZN, MSFT.                   
+There are 50 users participate in trading, with user IDs range from 1 to 50.                  
+
+
+
+
+
+
    
  
 
