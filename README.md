@@ -35,7 +35,7 @@ The dataset is the `data.csv` file. Please `data.csv` file is generated from the
    
    Run the following command:                         
    CREATE TABLE transactions (      
-    id SERIAL PRIMARY KEY,        
+    id SERIAL PRIMARY KEY,                       
     user_id INT,           
     stock TEXT,         
     price FLOAT,        
