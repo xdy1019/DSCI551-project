@@ -33,7 +33,8 @@ The dataset is the `data.csv` file. Please `data.csv` file is generated from the
    Create table into the trading_db database.                   
    Please first identify and copy the absolute path of `data.csv` file on your local machine.
    
-   Run the following command:                         
+   Run the following command:
+                         
    CREATE TABLE transactions (      
     id SERIAL PRIMARY KEY,                       
     user_id INT,           
@@ -52,7 +53,10 @@ The dataset is the `data.csv` file. Please `data.csv` file is generated from the
    DELIMITER ','                 
    CSV HEADER;             
 
-   Please replace the 'your absolute path of the data.csv file' with the actual absolute path of `data.csv` file on your local machine.  
+   Please replace the 'your absolute path of the data.csv file' with the actual absolute path of `data.csv` file on your local machine.
+
+   To verify if data is loaded into the table, run the following command:               
+   SELECT COUNT(*) FROM transactions;
 
 
    
