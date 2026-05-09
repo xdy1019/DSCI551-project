@@ -19,6 +19,44 @@ Instructions to run this project:
 2. Data to insert into the database:             
 The dataset is the `data.csv` file. Please `data.csv` file is generated from the `script.ipynb` file. You need to download `data.csv` file first. 
 
+3. Create a new database called "trading_db" in Postgres.app           
+   Open terminal and run:
+   psql postgres
+   
+5. Connect to the trading_db database        
+   Inside psql, run the following command:             
+   CREATE DATABASE trading_db;
+   
+   Then connect and run this command:                
+   \c trading_db
+   
+   Create table into the trading_db database.                   
+   Please first identify and copy the absolute path of `data.csv` file on your local machine.
+   
+   Run the following command:                         
+   CREATE TABLE transactions (
+    id SERIAL PRIMARY KEY,
+    user_id INT,
+    stock TEXT,
+    price FLOAT,
+    quantity INT,
+    side TEXT,
+    timestamp DATE   
+    );
+
+   Insert the `data.csv` file into the transactions table.
+   Run the following command:
+   
+   \copy transactions(user_id, stock, price, quantity, side, timestamp)
+   FROM 'your absolute path of the data.csv file'
+   DELIMITER ','
+   CSV HEADER;
+
+   Please replace the 'your absolute path of the data.csv file' with the actual absolute path of `data.csv` file on your local machine.  
+
+
+   
+
 
 
 
