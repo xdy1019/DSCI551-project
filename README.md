@@ -13,8 +13,13 @@ pip install fastapi
 2. Install PostgreSQL              
 Please also install Postgres.app
 
-Data to insert into the database:             
+Instructions to run this project:       
+1. Git clone this repository
+
+2. Data to insert into the database:             
 The dataset is the `data.csv` file. Please `data.csv` file is generated from the `script.ipynb` file. You need to download `data.csv` file first. 
+
+
 
 
 
