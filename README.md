@@ -68,9 +68,15 @@ The dataset is the `data.csv` file. Please `data.csv` file is generated from the
    python3 -m uvicorn main:app --reload
    
 6. Start the frontend
-   Run the following commands in the vscode terminal:
+   Run the following commands in the vscode terminal:                    
    cd frontend          
-   python3 -m http.server 5500           
+   python3 -m http.server 5500
+   
+   The following is the website link:           
+   http://localhost:5500
+
+   
+ 
 
    
 
