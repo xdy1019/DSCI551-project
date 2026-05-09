@@ -86,7 +86,9 @@ There are 6 major operations in this application:
 You need to scroll down the page to see the other operations.              
 Note that the timeframe is 03/01/2025 - 03/01/2026.          
 There are four stocks being traded: AAPL, AMAT, AMZN, MSFT.                   
-There are 50 users participate in trading, with user IDs range from 1 to 50.                  
+There are 50 users participate in trading, with user IDs range from 1 to 50.  
+
+
 
 
 
