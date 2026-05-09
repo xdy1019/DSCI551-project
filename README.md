@@ -34,23 +34,23 @@ The dataset is the `data.csv` file. Please `data.csv` file is generated from the
    Please first identify and copy the absolute path of `data.csv` file on your local machine.
    
    Run the following command:                         
-   CREATE TABLE transactions (
-    id SERIAL PRIMARY KEY,
-    user_id INT,
-    stock TEXT,
-    price FLOAT,
-    quantity INT,
-    side TEXT,
-    timestamp DATE   
-    );
+   CREATE TABLE transactions (      
+    id SERIAL PRIMARY KEY,        
+    user_id INT,           
+    stock TEXT,         
+    price FLOAT,        
+    quantity INT,           
+    side TEXT,               
+    timestamp DATE                 
+    );      
 
    Insert the `data.csv` file into the transactions table.
    Run the following command:
    
-   \copy transactions(user_id, stock, price, quantity, side, timestamp)
-   FROM 'your absolute path of the data.csv file'
-   DELIMITER ','
-   CSV HEADER;
+   \copy transactions(user_id, stock, price, quantity, side, timestamp)                     
+   FROM 'your absolute path of the data.csv file'                  
+   DELIMITER ','                 
+   CSV HEADER;             
 
    Please replace the 'your absolute path of the data.csv file' with the actual absolute path of `data.csv` file on your local machine.  
 
